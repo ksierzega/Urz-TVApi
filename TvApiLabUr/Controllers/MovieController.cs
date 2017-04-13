@@ -11,33 +11,39 @@ namespace TvApiLabUr.Controllers
 
         public MovieController()
         {
-            _moviesService = MoviesService.Instace;
+            _moviesService = new MoviesService();
         }
 
         [HttpGet, Route("movies")]
         public IHttpActionResult GetAllMovies()
         {
-            List<Movie> movies = _moviesService.GetAll();
+            List<MovieResponse> movies = _moviesService.GetAll();
             return Ok(movies);
         }
 
         [HttpGet, Route("movies/{movieId:int}")]
         public IHttpActionResult Get(int movieId)
         {
-            Movie movie = _moviesService.GetById(movieId);
+            MovieResponse movie = _moviesService.GetById(movieId);
 
             if (movie == null)
             {
-                return NotFound();                
+                return NotFound();
             }
 
             return Ok(movie);
         }
 
         [HttpPost, Route("movies")]
-        public IHttpActionResult Post([FromBody]Movie movie)
+        public IHttpActionResult Post([FromBody]MovieRequest movie)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _moviesService.AddNewMovie(movie);
+
             return Ok();
         }
 

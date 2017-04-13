@@ -1,77 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using TvApiLabUr.DAL;
 using TvApiLabUr.Models;
 
 namespace TvApiLabUr.Services
 {
     public class MoviesService
     {
-        private static MoviesService _instance;
-        private List<Movie> _movies;
-
-        private MoviesService()
+        public List<MovieResponse> GetAll()
         {
-            _movies = new List<Movie>
+            using (var ctx = new MoviesContext())
             {
-                new Movie()
+                return ctx.Movies.Select(m => new MovieResponse()
                 {
-                    Id = 1,
-                    Author ="asd",
-                    Title = "super film",
-                    Year = 1998,
-                    Comments = new  List<string> { "super", "ossommm"}
-                 },
-                new Movie()
-                {
-                    Id = 2,
-                    Author ="asd2",
-                    Title = "super film2",
-                    Year = 1998,
-                    Comments = new  List<string> { "super2", "ossommm2"}
-                 },
-            };
-        }
-
-        public static MoviesService Instace
-        {
-            get
-            {
-                if(_instance == null)
-                {
-                    _instance = new MoviesService();
-                }
-
-                return _instance;
+                    Id = m.Id,
+                    Title = m.Title,
+                    Year = m.Year
+                }).ToList();
             }
         }
 
+        public MovieResponse GetById(int id)
+        {
+            using (var ctx = new MoviesContext())
+            {
+                var movie = ctx.Movies.Find(id);
+                if (movie == null)
+                {
+                    return null;
+                }
+
+                return new MovieResponse()
+                {
+                    Id = movie.Id,
+                    Title = movie.Title,
+                    Year = movie.Year
+                };
+            }
+        }
+
+        public void AddNewMovie(MovieRequest movie)
+        {
+            using (var ctx = new MoviesContext())
+            {
+                ctx.Movies.Add(new Movie()
+                {
+                    Title = movie.Title,
+                    Year = movie.Year
+                });
+                ctx.SaveChanges();
+            }
+        }
         
-
-        public List<Movie> GetAll()
+        public void Remove(int id)
         {
-            return _movies;
-        }
+            using (var ctx = new MoviesContext())
+            {
+                var movie = ctx.Movies.Find(id);
+                if (movie == null)
+                {
+                    return;
+                }
 
-        public Movie GetById(int id)
-        {
-            Movie foundMovie = _movies
-                  .Where(movie => movie.Id == id)
-                  .SingleOrDefault();
-
-            return foundMovie;
-        }
-
-        public void AddNewMovie(Movie movie)
-        {
-            _movies.Add(movie);
-        }
-
-        public void Remove(int movieId)
-        {
-           Movie movie =  GetById(movieId);
-            _movies.Remove(movie);
+                ctx.Movies.Remove(movie);
+                ctx.SaveChanges();
+            }
         }
     }
 }
