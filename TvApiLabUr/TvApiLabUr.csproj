@@ -101,6 +101,7 @@
     <Compile Include="DAL\Movie.cs" />
     <Compile Include="DAL\MoviesContext.cs" />
     <Compile Include="DAL\Review.cs" />
+    <Compile Include="Formatters\CsvMediaTypeFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

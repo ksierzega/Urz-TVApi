@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using TvApiLabUr.Formatters;
 
 namespace TvApiLabUr
 {
@@ -13,6 +14,8 @@ namespace TvApiLabUr
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+          
+            config.Formatters.Add(new CsvMediaTypeFormatter());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
