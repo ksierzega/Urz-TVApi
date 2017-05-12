@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using TvApiLabUr.Filters;
 using TvApiLabUr.Models;
 using TvApiLabUr.Services;
 
@@ -14,6 +15,7 @@ namespace TvApiLabUr.Controllers
             _moviesService = new MoviesService();
         }
 
+        [ExecutionTime]
         [HttpGet, Route("movies")]
         public IHttpActionResult GetAllMovies()
         {
@@ -35,13 +37,9 @@ namespace TvApiLabUr.Controllers
         }
 
         [HttpPost, Route("movies")]
+        [ModelValidation]
         public IHttpActionResult Post([FromBody]MovieRequest movie)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             _moviesService.AddNewMovie(movie);
 
             return Ok();

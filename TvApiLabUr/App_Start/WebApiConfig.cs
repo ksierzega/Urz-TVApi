@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using TvApiLabUr.Infrastructure;
 
 namespace TvApiLabUr
 {
@@ -13,6 +15,8 @@ namespace TvApiLabUr
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

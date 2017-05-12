@@ -1,9 +1,11 @@
 ﻿using System.Web.Http;
+using TvApiLabUr.Filters;
 using TvApiLabUr.Models;
 using TvApiLabUr.Services;
 
 namespace TvApiLabUr.Controllers
 {
+    [TvApiExceptionFilter]
     public class ReviewController : ApiController
     {
         private ReviewService _reviewService;

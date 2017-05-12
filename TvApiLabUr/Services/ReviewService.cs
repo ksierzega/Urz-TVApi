@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TvApiLabUr.Common;
 using TvApiLabUr.DAL;
+using TvApiLabUr.Filters;
 using TvApiLabUr.Models;
 
 namespace TvApiLabUr.Services
@@ -12,6 +14,12 @@ namespace TvApiLabUr.Services
             using (var ctx = new MoviesContext())
             {
                 var movie = ctx.Movies.Find(movieId);
+
+                if (movie == null)
+                {
+                    throw new TvApiException("Invalid movie id");
+                }
+
                 movie.Reviews.Add(new Review()
                 {
                     Comment = request.Comment,
