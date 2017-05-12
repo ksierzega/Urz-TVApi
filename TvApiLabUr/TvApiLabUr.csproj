@@ -105,6 +105,7 @@
     <Compile Include="DAL\Movie.cs" />
     <Compile Include="DAL\MoviesContext.cs" />
     <Compile Include="DAL\Review.cs" />
+    <Compile Include="Formatters\CsvMediaTypeFormatter.cs" />
     <Compile Include="Filters\ExecutionTimeAttribute.cs" />
     <Compile Include="Filters\ModelValidationAttribute.cs" />
     <Compile Include="Common\TvApiException.cs" />

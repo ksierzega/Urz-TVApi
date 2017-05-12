@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using TvApiLabUr.Formatters;
 using System.Web.Http.ExceptionHandling;
 using TvApiLabUr.Infrastructure;
 
@@ -15,6 +18,11 @@ namespace TvApiLabUr
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+         
+            config.Formatters.JsonFormatter.MediaTypeMappings.Add(
+               new QueryStringMapping("format","json",new MediaTypeHeaderValue("application/json")));
+
+            config.Formatters.Add(new CsvMediaTypeFormatter());
 
             config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
 
